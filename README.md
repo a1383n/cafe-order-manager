@@ -1,2 +1,0 @@
-# SharifPlus
-SharifPlus Cli Manager
