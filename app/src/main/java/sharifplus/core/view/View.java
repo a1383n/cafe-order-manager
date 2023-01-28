@@ -1,44 +1,14 @@
 package sharifplus.core.view;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public abstract class View {
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_RED = "\u001B[31m";
+public abstract class View extends Console {
 
-    public void print(String string) {
-        System.out.print(string);
-    }
-
-    public void println(String string) {
-        System.out.println(string);
-    }
-
-    public void printError(String error) {
-        System.out.println(ANSI_RED + error + ANSI_RESET);
-    }
-
-    public void clear() {
-        try {
-            final String os = System.getProperty("os.name");
-
-            if (os.contains("Windows")) {
-                Runtime.getRuntime().exec("cls");
-            } else {
-                Runtime.getRuntime().exec("clear");
-            }
-        } catch (final Exception e) {
-            //  Handle any exceptions.
-        }
-    }
-
-    public void printItems(String[] items) {
-        for (int i = 0; i < items.length; i++) {
-            println(i + 1 + ". " + items[i]);
-        }
-    }
-
+    /**
+     * Print items using {@link #printItems(String[])} method the waiting for user to select one of these.
+     * @param items The array of items should print and user select between thats
+     * @return The index of selected item
+     */
     public int printAndWaitForSelectItem(String[] items) {
         printItems(items);
 
@@ -47,19 +17,24 @@ public abstract class View {
             print("Select one of these: ");
 
             try {
-                int userInput = scanner.nextInt();
+                int userInput = (int) cast(scanner.nextLine(),"int");
 
                 if (userInput > 0 && userInput <= items.length) {
                     return userInput - 1;
                 } else {
-                    printError("Out of range.");
+                    println("Out of range.", ANSI_RED);
                 }
-            }catch (InputMismatchException inputMismatchException) {
-                printError("Invalid input");
+            } catch (Exception exception) {
+                println("Invalid input", ANSI_RED);
             }
         }
     }
 
+    /**
+     * Read user input from stdin with {@link Scanner}
+     * @param message The message for explain what you need from user
+     * @return The user given value
+     */
     public String input(String message) {
         Scanner scanner = new Scanner(System.in);
         print(message);

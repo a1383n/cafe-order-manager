@@ -2,6 +2,10 @@ package sharifplus.feature.auth.view;
 
 import sharifplus.core.view.View;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class AuthView extends View {
     public void showMainPage() {
         int selectedIndex = printAndWaitForSelectItem(new String[]{
@@ -9,24 +13,24 @@ public class AuthView extends View {
            "Create account"
         });
 
-        clear();
+        Map<String,String> parameterMap = new LinkedHashMap<>();
+        Map<String,Object> outputMap = new HashMap<>();
 
-        switch (selectedIndex){
-            case 0:
+        parameterMap.put("username","String");
+        parameterMap.put("password","String");
+
+        switch (selectedIndex) {
+            case 0 -> {
                 println("Login to your account");
-                String username = input("Enter the username: ");
-                String password = input("Enter the password: ");
-                System.out.println("username = " + username);
-                System.out.println("password = " + password);
-                break;
-            case 1:
+                outputMap = readParameters(parameterMap);
+            }
+            case 1 -> {
                 println("Create a new account");
-                String accountType = input("Enter the account type [Customer,Employee]: ");
-                username = input("Enter the username: ");
-                password = input("Enter the password: ");
-                System.out.println("username = " + username);
-                System.out.println("password = " + password);
-                break;
+                parameterMap.put("account type", "string");
+                outputMap = readParameters(parameterMap);
+            }
         }
+
+        System.out.print(outputMap);
     }
 }
