@@ -8,3 +8,6 @@ build
 
 # Ingnore .idea
 .idea
+
+# Application Data folder
+.sharif_plus
