@@ -4,6 +4,10 @@
 # Ignore Gradle build output directory
 build
 **/build
+**/out
 
 # Ingnore .idea
-.idea/*
+.idea
+
+# Application Data folder
+.sharif_plus
