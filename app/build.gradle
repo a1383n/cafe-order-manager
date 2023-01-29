@@ -20,8 +20,10 @@ dependencies {
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13.2'
 
-    // This dependency is used by the application.
-    implementation 'com.google.guava:guava:31.1-jre'
+    // Lightweight Object Relational Model (ORM) JDBC classes
+    implementation 'org.xerial:sqlite-jdbc:3.40.0.0'
+    implementation 'com.j256.ormlite:ormlite-core:6.1'
+    implementation 'com.j256.ormlite:ormlite-jdbc:6.1'
 }
 
 application {

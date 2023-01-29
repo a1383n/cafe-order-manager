@@ -1,6 +1,6 @@
 package sharifplus.core.utils;
 
-import sharifplus.core.io.FileController;
+import sharifplus.core.io.Storage;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -13,7 +13,7 @@ import java.util.Properties;
 public class Environment {
     private static final String CONFIG_FILE_NAME = "config.properties";
 
-    private static final Path localFilePath = Path.of(FileController.getApplicationDataFolder()).resolve(CONFIG_FILE_NAME);
+    private static final Path localFilePath = Path.of(Storage.getApplicationDataFolder()).resolve(CONFIG_FILE_NAME);
 
     public final Properties properties;
 

@@ -1,30 +1,42 @@
 package sharifplus.feature.auth.model;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 import sharifplus.core.security.Hash;
 
-enum UserType {
-    Customer,
-    Employee
-}
-
+@DatabaseTable(tableName = "users")
 public class User {
-    public User(UserType userType, String name, String password) {
-        this.userType = userType;
+    public enum Type {
+        Customer,
+        Employee
+    }
+
+    public User(Type type, String name, String password) {
+        this.type = type;
         this.name = name;
         this.passwordHash = Hash.make(password);
     }
 
-    private final UserType userType;
+    /*
+    This empty constructor require for ORMLite library
+     */
+    public User() {
+    }
 
     /**
      * Should be unique
      */
-    private final String name;
+    @DatabaseField(id = true)
+    private String name;
 
-    private final String passwordHash;
+    @DatabaseField
+    private Type type;
 
-    public UserType getUserType() {
-        return userType;
+    @DatabaseField
+    private String passwordHash;
+
+    public Type getUserType() {
+        return type;
     }
 
     public String getName() {
@@ -32,6 +44,15 @@ public class User {
     }
 
     public boolean checkPasswordHash(String s) {
-        return Hash.check(s,this.passwordHash);
+        return Hash.check(s, this.passwordHash);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "type=" + type +
+                ", name='" + name + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
+                '}';
     }
 }

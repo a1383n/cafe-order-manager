@@ -10,8 +10,6 @@ import java.util.stream.Stream;
  * No idea about this class
  */
 public class FileController implements Closeable {
-    private static final String APPLICATION_DATA_FOLDER_NAME = ".sharif_plus";
-
     public Path path;
     private File file;
     private Scanner reader;
@@ -36,14 +34,14 @@ public class FileController implements Closeable {
     }
 
     /**
-     * Create controller that's absolutePath is set to {@link #getApplicationDataFolder()} method result
+     * Create controller that's absolutePath is set to {@link Storage#getApplicationDataFolder()} method result
      *
      * @param filePath The file path. Ex. log.txt or /logs/app.log
      * @return The controller
      * @throws IOException If system cannot create file in the specified patch, If systemc cannot create parents directories, If path point to directory
      */
     public static FileController inAppData(String filePath) throws IOException {
-        String absolutePath = getApplicationDataFolder();
+        String absolutePath = Storage.getApplicationDataFolder();
         File absoluteFile = new File(absolutePath);
 
         if (absoluteFile.exists()) {
@@ -55,34 +53,6 @@ public class FileController implements Closeable {
                 return new FileController(filePath, absolutePath);
             }
         }
-    }
-
-    /**
-     * Get the current folder that's application running. Ex. ~/IdeaProjects/SharifPlus
-     *
-     * @return The path of folder
-     */
-    public static String getCurrentDirectory() {
-        return System.getProperty("user.dir");
-    }
-
-    /**
-     * Get the application data folder that's specified in {@link #APPLICATION_DATA_FOLDER_NAME} from absolutePath
-     *
-     * @param absolutePath The absolute path that's folder should create
-     * @return The path of folder
-     */
-    public static String getApplicationDataFolder(String absolutePath) {
-        return Path.of(absolutePath).resolve(APPLICATION_DATA_FOLDER_NAME).toString();
-    }
-
-    /**
-     * Get the application data folder in current directory
-     *
-     * @return The path of folder
-     */
-    public static String getApplicationDataFolder() {
-        return getApplicationDataFolder(getCurrentDirectory());
     }
 
     /**

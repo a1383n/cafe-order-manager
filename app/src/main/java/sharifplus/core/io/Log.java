@@ -38,7 +38,7 @@ public class Log {
      */
     public static void log(String s, LogLevel level) {
         try {
-            Path path = Path.of(FileController.getApplicationDataFolder()).resolve(LOG_FILE_NAME);
+            Path path = Path.of(Storage.getApplicationDataFolder()).resolve(LOG_FILE_NAME);
             File file = new File(path.toUri());
 
             if (!file.exists()) {
@@ -51,7 +51,7 @@ public class Log {
               [2023-01-28T21:52:28.7173746] - (INFO): TEST
              */
             Files.writeString(
-                    Path.of(FileController.getApplicationDataFolder()).resolve("log.txt"),
+                    Path.of(Storage.getApplicationDataFolder()).resolve("log.txt"),
                     String.format("[%s] - (%s): %s", ZonedDateTime.now(ZoneId.of("Asia/Tehran")).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), level.name(), s) + System.lineSeparator(),
                     StandardOpenOption.APPEND
             );
