@@ -60,7 +60,7 @@ public class AuthView extends View {
                     println("This username already exists", ANSI_RED);
                 }
             } else {
-                UserController.LoginResult result = controller.login(parameterMap.get("username"), parameterMap.get("password"));
+                UserController.LoginResult result = controller.login(outputMap.get("username").toString(), outputMap.get("password").toString());
 
                 switch (result) {
                     case SUCCESSFUL -> {
