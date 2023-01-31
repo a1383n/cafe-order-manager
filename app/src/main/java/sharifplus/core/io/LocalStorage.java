@@ -3,7 +3,7 @@ package sharifplus.core.io;
 import java.io.File;
 import java.nio.file.Path;
 
-public class Storage {
+public class LocalStorage {
     public static final String APPLICATION_DATA_FOLDER_NAME = ".sharif_plus";
 
     /**

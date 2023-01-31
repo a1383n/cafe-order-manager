@@ -34,14 +34,14 @@ public class FileController implements Closeable {
     }
 
     /**
-     * Create controller that's absolutePath is set to {@link Storage#getApplicationDataFolder()} method result
+     * Create controller that's absolutePath is set to {@link LocalStorage#getApplicationDataFolder()} method result
      *
      * @param filePath The file path. Ex. log.txt or /logs/app.log
      * @return The controller
      * @throws IOException If system cannot create file in the specified patch, If systemc cannot create parents directories, If path point to directory
      */
     public static FileController inAppData(String filePath) throws IOException {
-        String absolutePath = Storage.getApplicationDataFolder();
+        String absolutePath = LocalStorage.getApplicationDataFolder();
         File absoluteFile = new File(absolutePath);
 
         if (absoluteFile.exists()) {

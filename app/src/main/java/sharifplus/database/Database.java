@@ -2,7 +2,7 @@ package sharifplus.database;
 
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
-import sharifplus.core.io.Storage;
+import sharifplus.core.io.LocalStorage;
 
 import java.nio.file.Path;
 import java.sql.SQLException;
@@ -29,7 +29,7 @@ public class Database {
             return connection;
 
         try {
-            connection = getConnectionSource(Storage.getApplicationDataFolder());
+            connection = getConnectionSource(LocalStorage.getApplicationDataFolder());
             return connection;
         } catch (SQLException e) {
             throw new RuntimeException(e);
