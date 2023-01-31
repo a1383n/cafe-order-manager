@@ -1,8 +1,8 @@
 package sharifplus;
 
 import com.j256.ormlite.logger.LocalLogBackend;
+import sharifplus.core.io.LocalStorage;
 import sharifplus.core.io.Log;
-import sharifplus.core.io.Storage;
 import sharifplus.feature.auth.model.User;
 import sharifplus.feature.auth.view.AuthView;
 
@@ -14,7 +14,7 @@ public class App {
         System.out.println("Welcome to SharifPlus .......-.......");
 
         Log.info("Application started");
-        Storage.ensureApplicationFolderInitialized();
+        LocalStorage.ensureApplicationFolderInitialized();
 
         User user = new AuthView().showMainPage();
 
