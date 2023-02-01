@@ -43,7 +43,7 @@ public class Environment {
             return new Environment(Objects.requireNonNull(Environment.class.getClassLoader().getResource(CONFIG_FILE_NAME)).openStream());
         }
     }
-
+    // Have sex, incel!
     /**
      * Save current {@link #properties} object to application data folder
      *
