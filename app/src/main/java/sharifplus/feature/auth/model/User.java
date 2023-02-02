@@ -4,8 +4,10 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import sharifplus.core.security.Hash;
 
+import java.io.Serializable;
+
 @DatabaseTable(tableName = "users")
-public class User {
+public class User implements Serializable {
     public enum Type {
         Customer,
         Employee
@@ -17,11 +19,10 @@ public class User {
         this.passwordHash = Hash.make(password);
     }
 
-    /*
-    This empty constructor require for ORMLite library
+    /**
+     * This empty constructor require for ORMLite library
      */
-    public User() {
-    }
+    public User() {}
 
     /**
      * Should be unique
@@ -52,7 +53,6 @@ public class User {
         return "User{" +
                 "type=" + type +
                 ", name='" + name + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
                 '}';
     }
 }

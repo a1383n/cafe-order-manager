@@ -18,8 +18,7 @@ public class Food extends Product {
     };
 
     public Food(String title) {
-        this.title = "food." + title;
-        this.ingredientList = list.get(title);
+        super("food." + title,list.get(title));
     }
 
     public static List<String> getAll() {

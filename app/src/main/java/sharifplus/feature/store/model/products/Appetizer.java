@@ -16,8 +16,7 @@ public class Appetizer extends Product {
     };
 
     public Appetizer(String title) {
-        this.title = "appetizer." + title;
-        this.ingredientList = list.get(title);
+        super("appetizer." + title,list.get(title));
     }
 
     public static List<String> getAll() {

@@ -18,8 +18,7 @@ public class Drink {
         };
 
         public Hot(String title) {
-            this.title = "drink.hot." + title;
-            this.ingredientList = list.get(title);
+            super("drink.hot." + title,list.get(title));
         }
 
         public static List<String> getAll() {
@@ -35,9 +34,8 @@ public class Drink {
             }
         };
 
-        public Cold() {
-            this.title = "drink.cold." + title;
-            this.ingredientList = list.get(title);
+        public Cold(String title) {
+            super("drink.cold." + title,list.get(title));
         }
 
         public static List<String> getAll() {

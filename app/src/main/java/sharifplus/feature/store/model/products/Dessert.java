@@ -17,8 +17,7 @@ public class Dessert extends Product {
     };
 
     public Dessert(String title) {
-        this.title = "dessert." + title;
-        this.ingredientList = list.get(title);
+        super("dessert." + title,list.get(title));
     }
 
     public static String[] getAll() {
