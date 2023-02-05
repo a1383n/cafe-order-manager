@@ -28,7 +28,7 @@ public class AuthView extends View {
         int selectedIndex = printAndWaitForSelectItem(new String[]{
                 "Login",
                 "Create account"
-        });
+        },false);
 
         Map<String, String> parameterMap = new LinkedHashMap<>();
         Map<String, Object> outputMap = new HashMap<>();

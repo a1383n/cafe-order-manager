@@ -3,11 +3,13 @@ package sharifplus.feature.store.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import sharifplus.core.utils.ProductDeserializer;
 import sharifplus.feature.auth.model.User;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,13 +27,13 @@ public class Order {
     /**
      * Note: When {@link Order} retrieved from the database, User object only had {@link User#getName()} and other fields will be {@code null}. Because the {@code Ormlite} library not support that.
      */
-    @DatabaseField(canBeNull = false,foreign = true)
+    @DatabaseField(canBeNull = false, foreign = true)
     public User user;
 
     /**
      * We convert {@link #productList} to json for keep that in database
      */
-    @DatabaseField(canBeNull = false,useGetSet = true)
+    @DatabaseField(canBeNull = false, useGetSet = true)
     private String productListJson;
 
     /**
@@ -40,22 +42,41 @@ public class Order {
     public List<Product> productList;
 
     /**
+     * The timestamp that's tell when the order created
+     * Its store in database as UNIX-Time
+     */
+    @DatabaseField(canBeNull = false, dataType = DataType.DATE)
+    public Date createdAt;
+
+    /**
+     * The timestamp that's tell when the order was delivered
+     * Its store in database as UNIX-Time
+     * It can be null. If it's null means order not deviled.
+     */
+    @DatabaseField(dataType = DataType.DATE)
+    public Date deliveredAt;
+
+    /**
      * Create Order object
-     * @param user The user that's order related to.
+     *
+     * @param user        The user that's order related to.
      * @param productList The products list that's user want
      */
     public Order(User user, List<Product> productList) {
         this.user = user;
         this.productList = productList;
+        this.createdAt = new Date();
     }
 
     /**
      * This empty constructor for {@code Ormlite} library
      */
-    Order() {}
+    Order() {
+    }
 
     /**
      * The getter {@link #productListJson} that's return the json to store in the database
+     *
      * @return The json string
      */
     public String getProductListJson() {
@@ -68,9 +89,26 @@ public class Order {
     public void setProductListJson(String productListJson) {
         this.productListJson = productListJson;
         this.productList = new GsonBuilder()
-                .registerTypeAdapter(Product.class,new ProductDeserializer())
+                .registerTypeAdapter(Product.class, new ProductDeserializer())
                 .create()
-                .fromJson(this.productListJson,new TypeToken<List<Product>>(){}.getType());
+                .fromJson(this.productListJson, new TypeToken<List<Product>>() {
+                }.getType());
+    }
+
+    /**
+     * Fill the {@link #deliveredAt} with {@link Date#Date()} that's current time
+     */
+    public void setDeliveredAt() {
+        this.deliveredAt = new Date();
+    }
+
+    /**
+     * Check if order is delivered or not
+     *
+     * @return If {@link #deliveredAt} equal to {@code null} means order not delivered
+     */
+    public boolean isDelivered() {
+        return deliveredAt != null;
     }
 
     @Override
@@ -79,6 +117,8 @@ public class Order {
                 "id=" + id +
                 ", user=" + user +
                 ", productList=" + productList +
+                ", createdAt=" + createdAt +
+                ", deliveredAt=" + deliveredAt +
                 '}';
     }
 }

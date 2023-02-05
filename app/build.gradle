@@ -24,9 +24,13 @@ dependencies {
     implementation 'org.xerial:sqlite-jdbc:3.40.0.0'
     implementation 'com.j256.ormlite:ormlite-core:6.1'
     implementation 'com.j256.ormlite:ormlite-jdbc:6.1'
+    implementation 'org.slf4j:slf4j-simple:2.0.6'
 
     // Gson is a Java library that can be used to convert Java Objects into their JSON
     implementation 'com.google.code.gson:gson:2.10.1'
+
+    // A simple tool to format tables with various row/column options for indentation
+    implementation 'de.vandermeer:asciitable:0.3.2'
 }
 
 application {

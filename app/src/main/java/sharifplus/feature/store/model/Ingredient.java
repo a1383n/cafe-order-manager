@@ -28,4 +28,12 @@ public class Ingredient {
         this.ingredient = ingredient;
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "name=" + ingredient +
+                ", value=" + value +
+                '}';
+    }
 }
