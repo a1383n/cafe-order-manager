@@ -60,7 +60,7 @@ public class StorageController {
         try {
             properties.load(new FileInputStream(storageFilePath.toFile()));
             for (Ingredient.Ingredients ingredient : ingredients) {
-                map.put(ingredient, (Integer) properties.getOrDefault(STORAGE_KEY_PREFIX + ingredient.name().toLowerCase(), random.nextInt(5, 20)));
+                map.put(ingredient, Integer.parseInt(String.valueOf(properties.getOrDefault(STORAGE_KEY_PREFIX + ingredient.name().toLowerCase(), random.nextInt(5, 20)))));
             }
             return map;
         } catch (IOException e) {
