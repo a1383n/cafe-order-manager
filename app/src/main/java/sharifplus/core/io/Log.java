@@ -10,8 +10,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 enum LogLevel {
-    INFO,
-    ERROR
+    INFO, ERROR
 }
 
 /**
@@ -50,11 +49,7 @@ public class Log {
               Output:
               [2023-01-28T21:52:28.7173746] - (INFO): TEST
              */
-            Files.writeString(
-                    Path.of(LocalStorage.getApplicationDataFolder()).resolve("log.txt"),
-                    String.format("[%s] - (%s): %s", ZonedDateTime.now(ZoneId.of("Asia/Tehran")).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), level.name(), s) + System.lineSeparator(),
-                    StandardOpenOption.APPEND
-            );
+            Files.writeString(Path.of(LocalStorage.getApplicationDataFolder()).resolve("log.txt"), String.format("[%s] - (%s): %s", ZonedDateTime.now(ZoneId.of("Asia/Tehran")).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), level.name(), s) + System.lineSeparator(), StandardOpenOption.APPEND);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

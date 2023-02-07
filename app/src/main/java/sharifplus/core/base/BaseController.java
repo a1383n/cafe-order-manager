@@ -11,10 +11,11 @@ import java.util.List;
 
 /**
  * The base resource controller that's has basic crud methods
- * @param <T> The resource type
+ *
+ * @param <T>  The resource type
  * @param <ID> The id type
  */
-public abstract class BaseController<T,ID> {
+public abstract class BaseController<T, ID> {
 
     /**
      * Database connection source
@@ -24,19 +25,20 @@ public abstract class BaseController<T,ID> {
     /**
      * Data access object for operate with database
      */
-    protected final Dao<T,ID> dao;
+    protected final Dao<T, ID> dao;
 
     /**
      * The constructor
+     *
      * @param tClass The Class object of resource type. Ex. Order.class
      */
     public BaseController(Class<T> tClass) {
         try {
             // Create the table in database if it's not exists
-            TableUtils.createTableIfNotExists(connectionSource,tClass);
+            TableUtils.createTableIfNotExists(connectionSource, tClass);
 
             // Create DAO object for specified resource
-            this.dao = DaoManager.createDao(connectionSource,tClass);
+            this.dao = DaoManager.createDao(connectionSource, tClass);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -44,6 +46,7 @@ public abstract class BaseController<T,ID> {
 
     /**
      * Store the given object to database
+     *
      * @param object The object
      */
     protected void create(T object) {
@@ -56,6 +59,7 @@ public abstract class BaseController<T,ID> {
 
     /**
      * Delete the object with specified ID from database
+     *
      * @param id The object id
      */
     protected void deleteById(ID id) {
@@ -68,6 +72,7 @@ public abstract class BaseController<T,ID> {
 
     /**
      * Delete the object from database
+     *
      * @param object The object
      */
     protected void delete(T object) {
@@ -80,6 +85,7 @@ public abstract class BaseController<T,ID> {
 
     /**
      * Update the object in database. Note: It's updates all records.
+     *
      * @param object The object
      */
     protected void update(T object) {
@@ -92,6 +98,7 @@ public abstract class BaseController<T,ID> {
 
     /**
      * Get object with specified if from database
+     *
      * @param id The object ID
      * @return The object
      */
@@ -105,6 +112,7 @@ public abstract class BaseController<T,ID> {
 
     /**
      * Get all objects exist in database
+     *
      * @return The list of objects
      */
     protected List<T> getAll() {

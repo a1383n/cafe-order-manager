@@ -27,19 +27,20 @@ public abstract class Store {
 
     /**
      * Add order
-     * @param user The user that's order related to
+     *
+     * @param user        The user that's order related to
      * @param productList The product list
      * @return If all products integrands are available it's will be true, Otherwise it's false
      */
-    public boolean addOrder(User user,List<Product> productList) {
+    public boolean addOrder(User user, List<Product> productList) {
         OrderController orderController = new OrderController();
         StorageController storageController = new StorageController();
 
-        Order order = new Order(user,productList);
+        Order order = new Order(user, productList);
         if (storageController.minesOrderIngredients(order)) {
             orderController.store(order);
             return true;
-        }else{
+        } else {
             return false;
         }
     }

@@ -17,16 +17,14 @@ public class Database {
     private static ConnectionSource connection;
 
     public static ConnectionSource getConnectionSource(String databasePath) throws SQLException {
-        if (connection != null)
-            return connection;
+        if (connection != null) return connection;
 
         connection = new JdbcConnectionSource(SQLITE_JDBC_URL_PREFIX + Path.of(databasePath).resolve(SQLITE_FILE_NAME));
         return connection;
     }
 
     public static ConnectionSource getConnectionSource() {
-        if (connection != null)
-            return connection;
+        if (connection != null) return connection;
 
         try {
             connection = getConnectionSource(LocalStorage.getApplicationDataFolder());

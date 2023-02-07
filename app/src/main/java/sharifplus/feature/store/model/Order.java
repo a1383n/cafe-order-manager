@@ -29,25 +29,16 @@ public class Order {
      */
     @DatabaseField(canBeNull = false, foreign = true)
     public User user;
-
-    /**
-     * We convert {@link #productList} to json for keep that in database
-     */
-    @DatabaseField(canBeNull = false, useGetSet = true)
-    private String productListJson;
-
     /**
      * The {@link Product} list of user
      */
     public List<Product> productList;
-
     /**
      * The timestamp that's tell when the order created
      * Its store in database as UNIX-Time
      */
     @DatabaseField(canBeNull = false, dataType = DataType.DATE)
     public Date createdAt;
-
     /**
      * The timestamp that's tell when the order was delivered
      * Its store in database as UNIX-Time
@@ -55,6 +46,11 @@ public class Order {
      */
     @DatabaseField(dataType = DataType.DATE)
     public Date deliveredAt;
+    /**
+     * We convert {@link #productList} to json for keep that in database
+     */
+    @DatabaseField(canBeNull = false, useGetSet = true)
+    private String productListJson;
 
     /**
      * Create Order object

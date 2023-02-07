@@ -12,7 +12,7 @@ public class Cafe extends Store {
     public List<Pair<String, List<Pair<String, List<String>>>>> getMenu() {
         return List.of(
                 new Pair<>("Drinks", List.of(new Pair<>("Hot", Drink.Hot.getAll()), new Pair<>("Cold", Drink.Cold.getAll()))),
-                new Pair<>("Desserts",List.of(new Pair<>("All Desserts", Dessert.getAll())))
+                new Pair<>("Desserts", List.of(new Pair<>("All Desserts", Dessert.getAll())))
         );
     }
 }

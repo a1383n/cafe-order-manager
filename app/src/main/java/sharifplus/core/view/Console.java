@@ -34,6 +34,7 @@ public class Console {
 
     /**
      * Print new line.
+     *
      * @param s String value
      */
     public void println(String s) {
@@ -42,15 +43,17 @@ public class Console {
 
     /**
      * Print new line with specified color
-     * @param s String value
+     *
+     * @param s         String value
      * @param colorCode The ANSI color value
      */
-    public void println(String s,String colorCode) {
-        println(colorCode + s +ANSI_RESET);
+    public void println(String s, String colorCode) {
+        println(colorCode + s + ANSI_RESET);
     }
 
     /**
      * Print value
+     *
      * @param s String value
      */
     public void print(String s) {
@@ -59,15 +62,17 @@ public class Console {
 
     /**
      * Print value with specified color
+     *
      * @param s
      * @param colorCode
      */
-    public void print(String s,String colorCode) {
+    public void print(String s, String colorCode) {
         print(colorCode + s + ANSI_RESET);
     }
 
     /**
      * Print items with an ordinal number
+     *
      * @param items The array list of items
      */
     public void printItems(String[] items) {
@@ -77,7 +82,8 @@ public class Console {
     }
 
     /**
-     * Read N user's input form stdin and fill it in {@link Map<String,Object>} object
+     * Read N user's input form stdin and fill it in {@link Map} object
+     *
      * @param stringMap The map that's define how to read. Ex. {"name", "String", "index": "int"}.
      *                  Supported types: string, int, double
      * @return It's a result value that converted to specified type. Ex. {"name": "Danial", "index": 0}
@@ -94,9 +100,9 @@ public class Console {
             String userInput = scanner.nextLine();
 
             try {
-                outputMap.put(keys[i],cast(userInput, values[i]));
+                outputMap.put(keys[i], cast(userInput, values[i]));
             } catch (Exception e) {
-                println("Invalid Input. Should be " + values[i],ANSI_RED);
+                println("Invalid Input. Should be " + values[i], ANSI_RED);
                 i--;
             }
         }
@@ -106,11 +112,11 @@ public class Console {
 
     /**
      * Cast the given object to specified type
-     * @param a The object to be cast
+     *
+     * @param a    The object to be cast
      * @param type The type of the object should cast to it.
      *             Supported types: string, int, double
      * @return The {@link Object} can be safely cast to given type. Ex. (int)cast("1","int")
-     * @exception Exception if any error happened when try to cast values
      */
     public Object cast(Object a, String type) {
         return switch (type.toLowerCase()) {

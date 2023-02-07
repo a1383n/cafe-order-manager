@@ -18,6 +18,7 @@ public abstract class Product {
 
     /**
      * Return product from string. Ex. food.pizza -> new Food("Pizza")
+     *
      * @param s The String
      * @return The Product
      */
@@ -37,15 +38,6 @@ public abstract class Product {
         };
     }
 
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "title='" + title + '\'' +
-                ", ingredientList=" + ingredientList +
-                '}';
-    }
-
     /**
      * Export product names to show in tables
      *
@@ -54,10 +46,18 @@ public abstract class Product {
      */
     public static String exportAllProductsNames(List<Product> productList) {
         List<String> strings = productList.stream().map(product -> {
-            String[] array =  product.title.split("\\.");
+            String[] array = product.title.split("\\.");
             return array[array.length - 1];
         }).toList();
         return String.join(",", strings);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "title='" + title + '\'' +
+                ", ingredientList=" + ingredientList +
+                '}';
     }
 
     /**

@@ -22,13 +22,10 @@ public class AuthView extends View {
     /**
      * Main page that user select between Login and Create account
      *
-     * @return
+     * @return The user that's logged in or created
      */
     public User showMainPage() {
-        int selectedIndex = printAndWaitForSelectItem(new String[]{
-                "Login",
-                "Create account"
-        },false);
+        int selectedIndex = printAndWaitForSelectItem(new String[]{"Login", "Create account"}, false);
 
         Map<String, String> parameterMap = new LinkedHashMap<>();
         Map<String, Object> outputMap = new HashMap<>();
@@ -36,7 +33,7 @@ public class AuthView extends View {
         parameterMap.put("username", "String");
         parameterMap.put("password", "String");
 
-        // Infinity loop until user can login or create account
+        // Infinity loop until the user can log in or create account
         while (true) {
             switch (selectedIndex) {
                 case 0 -> {
@@ -64,7 +61,7 @@ public class AuthView extends View {
 
                 switch (result) {
                     case SUCCESSFUL -> {
-                        println("Login successful",ANSI_GREEN);
+                        println("Login successful", ANSI_GREEN);
                         return controller.currentUser;
                     }
                     case FAILED -> println("Username or password is incorrect", ANSI_RED);

@@ -15,8 +15,9 @@ public class ProductDeserializer implements JsonDeserializer<Product> {
     @Override
     public Product deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject object = json.getAsJsonObject();
-        Type type = new TypeToken<List<Ingredient>>(){}.getType();
+        Type type = new TypeToken<List<Ingredient>>() {
+        }.getType();
 
-        return new Product.Builder(object.get("title").getAsString(),context.deserialize(object.get("ingredientList"),type));
+        return new Product.Builder(object.get("title").getAsString(), context.deserialize(object.get("ingredientList"), type));
     }
 }

@@ -10,7 +10,7 @@ public abstract class View extends Console {
     /**
      * Print items using {@link #printItems(String[])} method the waiting for user to select one of these.
      *
-     * @param items The array of items should print and user select between that's
+     * @param items         The array of items should print and user select between that's
      * @param hasBackOption If it's true then menu had back option
      * @return The index of selected item. If user select back option, then -1 will be returned.
      */
@@ -24,8 +24,7 @@ public abstract class View extends Console {
             try {
                 String userInput = scanner.nextLine();
 
-                if (hasBackOption && userInput.equals(":b"))
-                    return -1;
+                if (hasBackOption && userInput.equals(":b")) return -1;
 
                 int selectedIndex = (int) cast(userInput, "int");
 
@@ -42,10 +41,11 @@ public abstract class View extends Console {
 
     /**
      * Print the ascii table
-     * @param rows The table rows
+     *
+     * @param rows   The table rows
      * @param header The table header
      */
-    public void printASCIITable(List<String[]> rows,String ...header) {
+    public void printASCIITable(List<String[]> rows, String... header) {
         AsciiTable table = new AsciiTable();
 
         table.addRule();
@@ -66,7 +66,7 @@ public abstract class View extends Console {
      * @param message The message for explain what you need from user
      * @return The user given value
      */
-    public Object input(String message,String type) {
+    public Object input(String message, String type) {
         while (true) {
             Scanner scanner = new Scanner(System.in);
             print(message);
@@ -75,7 +75,7 @@ public abstract class View extends Console {
                 String userInput = scanner.nextLine();
                 return cast(userInput, type);
             } catch (Exception e) {
-                println("Invalid Input",ANSI_RED);
+                println("Invalid Input", ANSI_RED);
             }
         }
     }

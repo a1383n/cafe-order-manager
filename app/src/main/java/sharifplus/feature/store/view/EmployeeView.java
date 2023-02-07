@@ -6,7 +6,7 @@ import sharifplus.core.utils.StringUtils;
 import sharifplus.core.view.View;
 import sharifplus.feature.store.controller.OrderController;
 import sharifplus.feature.store.controller.StorageController;
-import sharifplus.feature.store.model.Ingredient;
+import sharifplus.feature.store.model.Ingredients;
 import sharifplus.feature.store.model.Order;
 import sharifplus.feature.store.model.Product;
 
@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * When logged in user is Employee, This view should use
+ * When logged-in user is Employee, This view should use
  */
 public class EmployeeView extends View {
     private static final String[] orderItems = new String[]{
@@ -123,7 +123,7 @@ public class EmployeeView extends View {
 
             switch (selectedIndex) {
                 case 0 -> {
-                    Map<Ingredient.Ingredients, Integer> map = controller.getIngredientsValues();
+                    Map<Ingredients, Integer> map = controller.getIngredientsValues();
 
                     AsciiTable table = new AsciiTable();
                     table.addRule();
@@ -138,7 +138,7 @@ public class EmployeeView extends View {
                     println(table.render(35));
                 }
                 case 1 -> {
-                    Map<Ingredient.Ingredients, Integer> map = controller.getIngredientsValues();
+                    Map<Ingredients, Integer> map = controller.getIngredientsValues();
                     int index = printAndWaitForSelectItem(map.keySet().stream().map(v -> StringUtils.toTitleCase(v.name().toLowerCase()).replace('_', ' ')).toList().toArray(new String[]{}), true);
 
                     if (index == -1)

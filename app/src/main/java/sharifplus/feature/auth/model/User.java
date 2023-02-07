@@ -8,10 +8,15 @@ import java.io.Serializable;
 
 @DatabaseTable(tableName = "users")
 public class User implements Serializable {
-    public enum Type {
-        Customer,
-        Employee
-    }
+    /**
+     * Should be unique
+     */
+    @DatabaseField(id = true)
+    private String name;
+    @DatabaseField
+    private Type type;
+    @DatabaseField
+    private String passwordHash;
 
     public User(Type type, String name, String password) {
         this.type = type;
@@ -22,19 +27,8 @@ public class User implements Serializable {
     /**
      * This empty constructor require for ORMLite library
      */
-    public User() {}
-
-    /**
-     * Should be unique
-     */
-    @DatabaseField(id = true)
-    private String name;
-
-    @DatabaseField
-    private Type type;
-
-    @DatabaseField
-    private String passwordHash;
+    public User() {
+    }
 
     public Type getUserType() {
         return type;
@@ -50,9 +44,10 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
-                "type=" + type +
-                ", name='" + name + '\'' +
-                '}';
+        return "User{" + "type=" + type + ", name='" + name + '\'' + '}';
+    }
+
+    public enum Type {
+        Customer, Employee
     }
 }

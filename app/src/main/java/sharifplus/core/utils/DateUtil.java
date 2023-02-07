@@ -15,8 +15,7 @@ public class DateUtil {
      */
     public static String diffWithNow(Date date) {
         // If date equal null then return null
-        if (date == null)
-            return "Null";
+        if (date == null) return "Null";
 
         // The current time
         Date now = new Date();

@@ -34,12 +34,12 @@ public class App {
                     case Customer -> new UserView(user).showMain();
                 }
 
-                String s = (String) input("Enter :q to quit the app or press any key to logout: ","string");
+                String s = (String) input("Enter :q to quit the app or press any key to logout: ", "string");
 
                 if (s.equals(":q")) {
                     break;
-                }else {
-                    println("You're logged out",ANSI_YELLOW);
+                } else {
+                    println("You're logged out", ANSI_YELLOW);
                 }
             }
         }

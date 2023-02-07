@@ -13,17 +13,10 @@ import java.sql.SQLException;
  */
 public class UserController {
 
-    public enum LoginResult {
-        SUCCESSFUL,
-        FAILED,
-        NOT_EXISTS
-    }
-
     /**
      * It's Data access object for CRUD operations
      */
     private final Dao<User, String> userDao;
-
     public User currentUser;
 
     public UserController() {
@@ -71,8 +64,7 @@ public class UserController {
      */
     public LoginResult login(String username, String password) {
         try {
-            if (!userDao.idExists(username))
-                return LoginResult.NOT_EXISTS;
+            if (!userDao.idExists(username)) return LoginResult.NOT_EXISTS;
 
             User user = userDao.queryForId(username);
 
@@ -85,5 +77,9 @@ public class UserController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public enum LoginResult {
+        SUCCESSFUL, FAILED, NOT_EXISTS
     }
 }
