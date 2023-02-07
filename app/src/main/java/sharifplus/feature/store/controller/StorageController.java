@@ -2,6 +2,7 @@ package sharifplus.feature.store.controller;
 
 import sharifplus.core.io.LocalStorage;
 import sharifplus.feature.store.model.Ingredient;
+import sharifplus.feature.store.model.Ingredients;
 import sharifplus.feature.store.model.Order;
 import sharifplus.feature.store.model.Product;
 
@@ -13,40 +14,67 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class StorageController {
+    /**
+     * Storage file name that's saved in {@link LocalStorage#getApplicationDataFolder()}
+     */
     public static final String STORAGE_FILE_NAME = "storage.properties";
+    /**
+     * The prefix of configuration keys
+     */
+    public static final String STORAGE_KEY_PREFIX = "storage.ingredient.";
+    /**
+     * The min value of random number to fill ingredient value
+     */
+    private static final int RANDOM_MIN_VALUE = 5;
+    /**
+     * The max value of random number to fill ingredient value
+     */
+    private static final int RANDOM_MAX_VALUE = 20;
+    /**
+     * Path of configuration file
+     */
     private static final Path storageFilePath = Path.of(LocalStorage.getApplicationDataFolder()).resolve(STORAGE_FILE_NAME);
 
-    private final Map<Ingredient.Ingredients, Integer> ingredientsMap;
+    /**
+     * The main variable that's keep ingredients in program
+     */
+    private final Map<Ingredients, Integer> ingredientsMap;
 
     public StorageController() {
         ingredientsMap = loadValuesFromFile();
     }
 
-    private Map<Ingredient.Ingredients, Integer> loadValuesFromFile() {
-        Ingredient.Ingredients[] ingredients = Ingredient.Ingredients.values();
-        Map<Ingredient.Ingredients, Integer> map = new HashMap<>();
+    /**
+     * Load ingredients values from file. If file not exist. That's filled with random values
+     *
+     * @return The map of ingredients and values
+     */
+    private Map<Ingredients, Integer> loadValuesFromFile() {
+        Ingredients[] ingredients = Ingredients.values();
+        Map<Ingredients, Integer> map = new HashMap<>();
         Properties properties = new Properties();
         Random random = new Random();
 
         try {
             properties.load(new FileInputStream(storageFilePath.toFile()));
-            for (Ingredient.Ingredients ingredient : ingredients) {
-                map.put(ingredient, (Integer) properties.getOrDefault("storage.ingredient." + ingredient.name().toLowerCase(), random.nextInt(5, 20)));
+            for (Ingredients ingredient : ingredients) {
+                map.put(ingredient, Integer.parseInt(String.valueOf(properties.getOrDefault(STORAGE_KEY_PREFIX + ingredient.name().toLowerCase(), random.nextInt(5, 20)))));
             }
             return map;
         } catch (IOException e) {
-            for (Ingredient.Ingredients ingredient : ingredients) {
-                map.put(ingredient, random.nextInt(5, 20));
+            for (Ingredients ingredient : ingredients) {
+                map.put(ingredient, random.nextInt(RANDOM_MIN_VALUE, RANDOM_MAX_VALUE));
             }
             return map;
         }
     }
 
+    /**
+     * Save the current {@link #ingredientsMap} to the specified file {@link #storageFilePath}
+     */
     private void save() {
         Properties properties = new Properties();
-        ingredientsMap.forEach((ingredients, integer) -> {
-            properties.put("storage.ingredient." + ingredients.name().toLowerCase(), integer.toString());
-        });
+        ingredientsMap.forEach((ingredients, integer) -> properties.put(STORAGE_KEY_PREFIX + ingredients.name().toLowerCase(), integer.toString()));
 
         try {
             properties.store(new FileOutputStream(storageFilePath.toFile()), null);
@@ -61,53 +89,104 @@ public class StorageController {
         }
     }
 
-    public void addValue(Ingredient.Ingredients ingredient, int value) {
+    /**
+     * Add x value to specified ingredient
+     *
+     * @param ingredient The ingredient
+     * @param value      The x value
+     */
+    public void addValue(Ingredients ingredient, int value) {
         setValue(ingredient, ingredientsMap.get(ingredient) + value);
     }
 
-    public void minesValue(Ingredient.Ingredients ingredient, int value) {
+    /**
+     * Mines x value to specified ingredient
+     *
+     * @param ingredient The ingredient
+     * @param value      The x value
+     */
+    public void minesValue(Ingredients ingredient, int value) {
         setValue(ingredient, ingredientsMap.get(ingredient) - value);
     }
 
-    public void setValue(Ingredient.Ingredients ingredient, int value) {
+    /**
+     * Set x value to specified ingredient
+     *
+     * @param ingredient The ingredient
+     * @param value      The x value
+     */
+    public void setValue(Ingredients ingredient, int value) {
         ingredientsMap.put(ingredient, value);
         save();
     }
 
-    public void addValues(List<Ingredient.Ingredients> ingredients, List<Integer> integers) {
+    /**
+     * Add list of the values to list of ingredients. Ex. [Meat,Bread],[3,5] --> Meat + 3, Bread + 5
+     *
+     * @param ingredients The ingredients
+     * @param values      The values
+     */
+    public void addValues(List<Ingredients> ingredients, List<Integer> values) {
         for (int i = 0; i < ingredients.size(); i++) {
-            ingredientsMap.put(ingredients.get(i), ingredientsMap.get(ingredients.get(i)) + integers.get(i));
+            ingredientsMap.put(ingredients.get(i), ingredientsMap.get(ingredients.get(i)) + values.get(i));
         }
         save();
     }
 
+    /**
+     * Check is had enough values for specified {@link Ingredient}
+     *
+     * @param ingredient The ingredient
+     * @return If storage value gather or equal to specified value, will true. Otherwise false
+     */
     public boolean checkIngredient(Ingredient ingredient) {
-        return ingredientsMap.get(ingredient.ingredient) >= ingredient.value;
+        return ingredientsMap.get(ingredient.ingredient()) >= ingredient.value();
     }
 
+    /**
+     * Check is had enough values for specified {@link Ingredient}. It's check all ingredients of all products
+     *
+     * @param order The order
+     * @return If all ingredients enough will true. Otherwise false
+     */
     public boolean checkOrder(Order order) {
         for (int i = 0; i < order.productList.size(); i++) {
             Product product = order.productList.get(i);
             for (int j = 0; j < product.ingredientList.size(); j++) {
-                if (!checkIngredient(product.ingredientList.get(j)))
-                    return false;
+                if (!checkIngredient(product.ingredientList.get(j))) return false;
             }
         }
 
         return true;
     }
 
-    public void minesOrderIngredients(Order order) {
+    /**
+     * Mines order ingredients from storage
+     *
+     * @param order The order
+     * @return If any ingredients are missing it's will be false
+     */
+    public boolean minesOrderIngredients(Order order) {
         for (int i = 0; i < order.productList.size(); i++) {
             Product product = order.productList.get(i);
             for (int j = 0; j < product.ingredientList.size(); j++) {
                 Ingredient ingredient = product.ingredientList.get(j);
-                minesValue(ingredient.ingredient, ingredient.value);
+
+                if (!checkIngredient(ingredient)) return false;
+
+                minesValue(ingredient.ingredient(), ingredient.value());
             }
         }
+
+        return true;
     }
 
-    public Map<Ingredient.Ingredients, Integer> getIngredientsValues() {
+    /**
+     * Get current ingredients values
+     *
+     * @return The ingredients values map
+     */
+    public Map<Ingredients, Integer> getIngredientsValues() {
         return ingredientsMap;
     }
 }
