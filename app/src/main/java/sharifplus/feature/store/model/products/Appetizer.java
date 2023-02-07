@@ -20,6 +20,6 @@ public class Appetizer extends Product {
     }
 
     public static List<String> getAll() {
-        return list.keySet().stream().toList();
+        return list.keySet().stream().map(s -> "appetizer." + s).toList();
     }
 }

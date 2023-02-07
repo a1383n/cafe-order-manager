@@ -22,7 +22,7 @@ public class Drink {
         }
 
         public static List<String> getAll() {
-            return list.keySet().stream().toList();
+            return list.keySet().stream().map(s -> "drink.hot." + s).toList();
         }
     }
 
@@ -39,7 +39,7 @@ public class Drink {
         }
 
         public static List<String> getAll() {
-            return list.keySet().stream().toList();
+            return list.keySet().stream().map(s -> "drink.cold." + s).toList();
         }
     }
 }

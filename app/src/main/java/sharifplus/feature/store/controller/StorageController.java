@@ -162,15 +162,22 @@ public class StorageController {
     /**
      * Mines order ingredients from storage
      * @param order The order
+     * @return If any ingredients are missing it's will be false
      */
-    public void minesOrderIngredients(Order order) {
+    public boolean minesOrderIngredients(Order order) {
         for (int i = 0; i < order.productList.size(); i++) {
             Product product = order.productList.get(i);
             for (int j = 0; j < product.ingredientList.size(); j++) {
                 Ingredient ingredient = product.ingredientList.get(j);
+
+                if (!checkIngredient(ingredient))
+                    return false;
+
                 minesValue(ingredient.ingredient, ingredient.value);
             }
         }
+
+        return true;
     }
 
     /**

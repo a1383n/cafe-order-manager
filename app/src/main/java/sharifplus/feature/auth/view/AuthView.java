@@ -64,7 +64,7 @@ public class AuthView extends View {
 
                 switch (result) {
                     case SUCCESSFUL -> {
-                        println("Login successful");
+                        println("Login successful",ANSI_GREEN);
                         return controller.currentUser;
                     }
                     case FAILED -> println("Username or password is incorrect", ANSI_RED);

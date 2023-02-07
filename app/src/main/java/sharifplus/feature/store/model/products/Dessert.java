@@ -20,7 +20,7 @@ public class Dessert extends Product {
         super("dessert." + title,list.get(title));
     }
 
-    public static String[] getAll() {
-        return list.keySet().toArray(new String[0]);
+    public static List<String> getAll() {
+        return list.keySet().stream().map(s -> "dessert." + s).toList();
     }
 }
